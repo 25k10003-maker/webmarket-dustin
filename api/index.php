@@ -1,4 +1,17 @@
 <?php
 
-// Forward Vercel serverless requests to Laravel's public/index.php
+// Ensure storage directories exist in Vercel writable /tmp directory
+$dirs = [
+    '/tmp/storage/framework/views',
+    '/tmp/storage/framework/cache/data',
+    '/tmp/storage/framework/sessions',
+    '/tmp/storage/logs',
+];
+foreach ($dirs as $dir) {
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0755, true);
+    }
+}
+
+// Forward request to Laravel's public/index.php
 require __DIR__ . '/../public/index.php';
